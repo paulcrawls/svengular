@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "svengular": "file:../.."
+    "svengular": "^0.1.0"
   },
   "devDependencies": {
     "sass": "^1.77.8",
