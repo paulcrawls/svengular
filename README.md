@@ -7,7 +7,7 @@ Svengular gives you small, independent ESM modules for:
 - components and DOM helpers;
 - TypeScript-friendly public types;
 - signals and effects;
-- a Redux-style store;
+- an NgXS-style store with models, selectors, and actions;
 - Angular-style route configuration;
 - raw HTML template binding helpers;
 - SCSS-ready Vite usage;
@@ -115,23 +115,49 @@ Template bindings support `{{ value }}` interpolation, `data-on-click="handler"`
 ## Store example
 
 ```ts
-import { createStore, combineReducers } from 'svengular/store';
+import { createModel, createSelector, createStore } from 'svengular/store';
 
-function counterReducer(state = { count: 0 }, action) {
-  switch (action.type) {
-    case 'counter/incremented':
-      return { ...state, count: state.count + 1 };
-    default:
-      return state;
-  }
+class IncrementCounter {
+  static type = '[Counter] Increment';
+  readonly type = IncrementCounter.type;
 }
 
-const store = createStore(combineReducers({ counter: counterReducer }));
-const count = store.select(state => state.counter.count);
+type CounterState = {
+  count: number;
+};
 
-store.dispatch({ type: 'counter/incremented' });
-console.log(count());
+type AppState = {
+  counter: CounterState;
+};
+
+const counterModel = createModel<CounterState, AppState, {
+  count: (state: CounterState) => number;
+}>({
+  name: 'counter',
+  defaults: { count: 0 },
+  selectors: {
+    count: state => state.count
+  },
+  actions: {
+    [IncrementCounter.type](context) {
+      context.patchState({ count: context.getState().count + 1 });
+      return context.getState().count;
+    }
+  }
+});
+
+const doubled = createSelector([counterModel.selectors.count], count => count * 2);
+const store = createStore<AppState>([counterModel]);
+
+const count = store.select(counterModel.selectors.count);
+const doubleCount = store.select(doubled);
+
+store.dispatch(new IncrementCounter()).subscribe(result => {
+  console.log(result.type, count(), doubleCount());
+});
 ```
+
+Reducer-style stores through `createStore(reducer)`, `combineReducers`, and `applyMiddleware` are still available for small or legacy code.
 
 ## Router example
 

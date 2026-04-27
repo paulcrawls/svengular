@@ -1,6 +1,6 @@
 {
   "name": "svengular",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A minimalist disappearing JavaScript framework inspired by Angular and Svelte.",
   "type": "module",
   "types": "./src/index.d.ts",
@@ -54,8 +54,9 @@
     "demo:dev": "npm --prefix examples/demo run dev --",
     "demo:build": "npm --prefix examples/demo run build",
     "demo:typecheck": "npm --prefix examples/demo run typecheck",
+    "demo:test": "npm --prefix examples/demo run test",
     "demo:preview": "npm --prefix examples/demo run preview --",
-    "check": "npm run test && npm run demo:typecheck && npm run demo:build"
+    "check": "npm run test && npm run demo:typecheck && npm run demo:test && npm run demo:build"
   },
   "devDependencies": {
     "@vitejs/plugin-basic-ssl": "^1.2.0",

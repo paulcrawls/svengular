@@ -1,35 +1,8 @@
 import './styles.scss';
 import { component, el, mount } from 'svengular/core';
 import { createRouter } from 'svengular/router';
-import { combineReducers, createStore, type Action } from 'svengular/store';
+import { store } from './store';
 import { STORE } from './tokens';
-
-type CounterState = {
-  count: number;
-};
-
-type AppState = {
-  counter: CounterState;
-};
-
-function counterReducer(state: CounterState = { count: 0 }, action: Action): CounterState {
-  switch (action.type) {
-    case 'counter/incremented':
-      return { ...state, count: state.count + 1 };
-    case 'counter/decremented':
-      return { ...state, count: state.count - 1 };
-    default:
-      return state;
-  }
-}
-
-const store = createStore<AppState>(
-  combineReducers<AppState>({
-    counter: counterReducer
-  })
-);
-
-export type AppStore = typeof store;
 
 const router = createRouter([
   {

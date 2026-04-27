@@ -5,14 +5,19 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "test": "node --import ./spec/loaders/register-assets-loader.mjs --import tsx ./node_modules/jasmine/bin/jasmine.js --config=spec/support/jasmine.mjs",
     "typecheck": "tsc --noEmit",
     "preview": "vite preview"
   },
   "dependencies": {
-    "svengular": "^0.1.0"
+    "svengular": "^0.1.1"
   },
   "devDependencies": {
+    "@types/jasmine": "^5.1.12",
+    "happy-dom": "^15.11.7",
+    "jasmine": "^5.12.0",
     "sass": "^1.77.8",
+    "tsx": "^4.20.6",
     "typescript": "^5.5.4",
     "vite": "^5.4.11"
   }
